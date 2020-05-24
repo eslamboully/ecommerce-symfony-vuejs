@@ -156,20 +156,25 @@
                                     <div style="margin: 10px">
                                         <h3>الوزن والحجم</h3>
                                         <div class="row">
-                                            <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
-                                                {{ form_label(form.weight) }}
-                                                {{ form_widget(form.weight) }}
-                                                <div style="color: red" class="errors">{{ form_errors(form.weight) }}</div>
-                                            </div>
-                                            <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
+                                            <div class="form-group col-md-3 col-lg-3 col-sm-3 col-sm-12">
                                                 {{ form_label(form.weight_string) }}
                                                 {{ form_widget(form.weight_string) }}
                                                 <div style="color: red" class="errors">{{ form_errors(form.weight_string) }}</div>
                                             </div>
-                                            <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
-                                                {{ form_label(form.Color) }}
-                                                {{ form_widget(form.Color) }}
-                                                <div style="color: red" class="errors">{{ form_errors(form.Color) }}</div>
+                                            <div class="form-group col-md-3 col-lg-3 col-sm-3 col-sm-12">
+                                                {{ form_label(form.weight) }}
+                                                {{ form_widget(form.weight) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.weight) }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3 col-lg-3 col-sm-3 col-sm-12">
+                                                {{ form_label(form.Size) }}
+                                                {{ form_widget(form.Size) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.Size) }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3 col-lg-3 col-sm-3 col-sm-12">
+                                                {{ form_label(form.size_string) }}
+                                                {{ form_widget(form.size_string) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.size_string) }}</div>
                                             </div>
                                             <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
                                                 {{ form_label(form.Country) }}
@@ -177,14 +182,14 @@
                                                 <div style="color: red" class="errors">{{ form_errors(form.Country) }}</div>
                                             </div>
                                             <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
-                                                {{ form_label(form.Size) }}
-                                                {{ form_widget(form.Size) }}
-                                                <div style="color: red" class="errors">{{ form_errors(form.Size) }}</div>
-                                            </div>
-                                            <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
                                                 {{ form_label(form.ManuFact) }}
                                                 {{ form_widget(form.ManuFact) }}
                                                 <div style="color: red" class="errors">{{ form_errors(form.ManuFact) }}</div>
+                                            </div>
+                                            <div class="form-group col-md-12 col-lg-12 col-sm-12 col-sm-12">
+                                                {{ form_label(form.Color) }}
+                                                {{ form_widget(form.Color) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.Color) }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -234,12 +239,55 @@
     <script src="{{ asset('dashboard') }}/plugins/select2/select2.full.min.js"></script>1111
 
     <script>
+        $(document).ready(function () {
+            let id = $('#department_form_department').val();
+            // var selectedCountryId = $(country).children("option:selected").val();
+
+            $.ajax({
+                'method': 'POST',
+                'url' : '{{ path('dashboard.products.specific.size') }}',
+                'type' : 'json',
+                'data' : {id:id},
+                success : function (data_ajax) {
+                    $('#product_form_Size').html('');
+                    $.each(data_ajax, function( index, size ) {
+                        $('#product_form_Size').append(`<option value="${size.id}">${size.name}</option>`);
+                    });
+                },
+                beforeSend: function(){
+                    $('.card-footer button').attr('disabled' ,'disabled');
+                },
+                complete: function(){
+                    $('.card-footer button').removeAttr('disabled' ,'disabled');
+                },
+            });
+        });
+
         $(function () { $('#jstree_demo_div').jstree({ 'core' : {
                 'data' : {{ departments | raw }}
             } }); });
 
         $('#jstree_demo_div').on("changed.jstree", function (e, data) {
             $('#department_form_department').val(data.selected);
+
+            $.ajax({
+                'method': 'POST',
+                'url' : '{{ path('dashboard.products.specific.size') }}',
+                'type' : 'json',
+                'data' : {id:data.selected},
+                success : function (data_ajax) {
+                    $('#product_form_Size').html('');
+                    $.each(data_ajax, function( index, size ) {
+                        $('#product_form_Size').append(`<option value="${size.id}">${size.name}</option>`);
+                    });
+                },
+                beforeSend: function(){
+                    $('.card-footer button').attr('disabled' ,'disabled');
+                },
+                complete: function(){
+                    $('.card-footer button').removeAttr('disabled' ,'disabled');
+                },
+            });
         });
 
         $(document).ready(function() {

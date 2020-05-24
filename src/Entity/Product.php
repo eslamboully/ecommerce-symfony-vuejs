@@ -125,6 +125,11 @@ class Product
      */
     private $Weight;
 
+    /**
+     * @ORM\Column(type="string", length=180, nullable=true)
+     */
+    private $size_string;
+
     public function __construct()
     {
         $this->Color = new ArrayCollection();
@@ -446,6 +451,18 @@ class Product
     public function setWeight(?Weight $Weight): self
     {
         $this->Weight = $Weight;
+
+        return $this;
+    }
+
+    public function getSizeString(): ?string
+    {
+        return $this->size_string;
+    }
+
+    public function setSizeString(?string $size_string): self
+    {
+        $this->size_string = $size_string;
 
         return $this;
     }

@@ -213,6 +213,13 @@ class ProductFormType extends AbstractType
                 'multiple' => true,
                 'required' => false,
             ])
+            ->add('size_string',TextType::class,[
+                'label' => 'اكتب المقاس',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'required' => false
+            ])
             ->add('ManuFact',EntityType::class,[
                 'label' => 'المصنعين*',
                 'attr' => [

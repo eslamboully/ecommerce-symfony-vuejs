@@ -85,6 +85,7 @@ class ProductController extends AbstractController
             $product->setReason($form->get('reason')->getData());
             $product->setWeight($form->get('weight')->getData());
             $product->setWeightString($form->get('weight_string')->getData());
+            $product->setSizeString($form->get('size_string')->getData());
             $product->setTrademark($form->get('Trademark')->getData());
             $product->setOtherData($form->get('other_data')->getData());
 
@@ -173,6 +174,7 @@ class ProductController extends AbstractController
             $product->setReason($form->get('reason')->getData());
             $product->setWeight($form->get('weight')->getData());
             $product->setWeightString($form->get('weight_string')->getData());
+            $product->setSizeString($form->get('size_string')->getData());
             $product->setTrademark($form->get('Trademark')->getData());
             $product->setOtherData($form->get('other_data')->getData());
 
