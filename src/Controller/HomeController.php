@@ -16,4 +16,14 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+
+    /**
+     * @Route("/dashboard/settings", name="dashboard.settings")
+     */
+    public function settings()
+    {
+        return $this->render('dashboard/index.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }

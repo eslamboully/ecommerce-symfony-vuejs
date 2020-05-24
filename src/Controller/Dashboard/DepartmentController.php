@@ -48,7 +48,7 @@ class DepartmentController extends AbstractController
             $this->addFlash('success','تمت الاضافة بنجاح');
             $em->flush();
 
-            return $this->redirectToRoute('dashboard.departments.index');
+            return $this->redirectToRoute('dashboard.departments.create');
         }
 
         $departments = json_encode($this->departments_tree(),JSON_PRETTY_PRINT);

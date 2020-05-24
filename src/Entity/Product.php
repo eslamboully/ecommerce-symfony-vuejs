@@ -152,7 +152,10 @@ class Product
 
     public function getPhoto(): ?string
     {
-        return $this->photo;
+        if ($this->photo !== null){
+            return 'uploads/products/'.$this->photo;
+        }
+        return 'uploads/products/default.jpg';
     }
 
     public function setPhoto(?string $photo): self

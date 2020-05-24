@@ -39,32 +39,32 @@
                                 </div>
                             {% endfor %}
                             <div style="margin-bottom: 10px">
-                                <button name="save" class="btn btn-info"> حفظ <i class="fa fa-save"></i> </button>
+                                <button name="save" class="btn btn-info"> حفظ وعوده <i class="fa fa-save"></i> </button>
                                 <button name="save_and_continue" class="btn btn-success"> حفظ واستمرار <i class="fa fa-save"></i></button>
-                                <a href="" class="btn btn-primary"> نسخ المنتج <i class="fa fa-copy"></i></a>
+                                <a href="{{ path('dashboard.products.create',{"copyId":product.id}) }}" class="btn btn-primary"> نسخ المنتج <i class="fa fa-copy"></i></a>
                                 <a href="{{ path('dashboard.products.index') }}" class="btn btn-default"> رجوع <i class="fa fa-arrow-left"></i></a>
-                                <a href="" class="btn btn-danger"> حذف <i class="fa fa-trash"></i></a>
+                                <a href="{{ path('dashboard.products.destroy',{"id":product.id}) }}" onclick="return confirm('هل انت متأكد من عملية الحذف ؟')" class="btn btn-danger"> حذف <i class="fa fa-trash"></i></a>
                             </div>
                             {{ form_errors(form) }}
                             {{ form_row(form._token) }}
                             <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="custom-content-below-info-tab" data-toggle="pill" href="#custom-content-below-info" role="tab" aria-controls="custom-content-below-home" aria-selected="true">معلومات المنتج</a>
+                                    <a class="nav-link active" id="custom-content-below-info-tab" data-toggle="pill" href="#custom-content-below-info" role="tab" aria-controls="custom-content-below-home" aria-selected="true"><i class="fa fa-info"></i> معلومات المنتج </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="custom-content-below-department-tab" data-toggle="pill" href="#custom-content-below-department" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">القسم</a>
+                                    <a class="nav-link" id="custom-content-below-department-tab" data-toggle="pill" href="#custom-content-below-department" role="tab" aria-controls="custom-content-below-profile" aria-selected="false"><i class="fa fa-list"></i> القسم </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="custom-content-below-settings-tab" data-toggle="pill" href="#custom-content-below-settings" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">اعدادات المنتج</a>
+                                    <a class="nav-link" id="custom-content-below-settings-tab" data-toggle="pill" href="#custom-content-below-settings" role="tab" aria-controls="custom-content-below-profile" aria-selected="false"><i class="fa fa-gears"></i> اعدادات المنتج </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="custom-content-below-content-tab" data-toggle="pill" href="#custom-content-below-content" role="tab" aria-controls="custom-content-below-messages" aria-selected="false">سبب الرفض </a>
+                                    <a class="nav-link" id="custom-content-below-content-tab" data-toggle="pill" href="#custom-content-below-content" role="tab" aria-controls="custom-content-below-messages" aria-selected="false"><i class="fa fa-question"></i> سبب الرفض </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="custom-content-below-sizes-tab" data-toggle="pill" href="#custom-content-below-sizes" role="tab" aria-controls="custom-content-below-settings" aria-selected="false">معلومات الشحن</a>
+                                    <a class="nav-link" id="custom-content-below-sizes-tab" data-toggle="pill" href="#custom-content-below-sizes" role="tab" aria-controls="custom-content-below-settings" aria-selected="false"><i class="fa fa-truck"></i> معلومات الشحن </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="custom-content-below-other-tab" data-toggle="pill" href="#custom-content-below-other" role="tab" aria-controls="custom-content-below-settings" aria-selected="false">معلومات اضافية</a>
+                                    <a class="nav-link" id="custom-content-below-other-tab" data-toggle="pill" href="#custom-content-below-other" role="tab" aria-controls="custom-content-below-settings" aria-selected="false"><i class="fa fa-cart-plus"></i> معلومات اضافية </a>
                                 </li>
                             </ul>
                             <div class="tab-content" id="custom-content-below-tabContent">
@@ -192,9 +192,9 @@
                                 <div class="tab-pane fade" id="custom-content-below-other" role="tabpanel" aria-labelledby="custom-content-below-other-tab">
                                     <div style="margin: 10px">
                                         <h3>معلومات اضافية</h3>
-                                        {{ form_label(form.photo_edit) }}
-                                        {{ form_widget(form.photo_edit) }}
-                                        <div style="color: red" class="errors">{{ form_errors(form.photo_edit) }}</div>
+                                        {{ form_label(form.photo) }}
+                                        {{ form_widget(form.photo) }}
+                                        <div style="color: red" class="errors">{{ form_errors(form.photo) }}</div>
                                         {{ form_label(form.Trademark) }}
                                         {{ form_widget(form.Trademark) }}
                                         <div style="color: red" class="errors">{{ form_errors(form.Trademark) }}</div>
@@ -205,11 +205,11 @@
                                 </div>
                             </div>
                             <div style="margin-bottom: 5px;margin-top: 10px">
-                                <button name="save" class="btn btn-info"> حفظ <i class="fa fa-save"></i> </button>
+                                <button name="save" class="btn btn-info"> حفظ وعوده <i class="fa fa-save"></i> </button>
                                 <button name="save_and_continue" class="btn btn-success"> حفظ واستمرار <i class="fa fa-save"></i></button>
-                                <a href="" class="btn btn-primary"> نسخ المنتج <i class="fa fa-copy"></i></a>
+                                <a href="{{ path('dashboard.products.create',{"copyId":product.id}) }}" class="btn btn-primary"> نسخ المنتج <i class="fa fa-copy"></i></a>
                                 <a href="{{ path('dashboard.products.index') }}" class="btn btn-default"> رجوع <i class="fa fa-arrow-left"></i></a>
-                                <a href="" class="btn btn-danger"> حذف <i class="fa fa-trash"></i></a>
+                                <a href="{{ path('dashboard.products.destroy',{"id":product.id}) }}" onclick="return confirm('هل انت متأكد من عملية الحذف ؟')" class="btn btn-danger"> حذف <i class="fa fa-trash"></i></a>
                             </div>
                         </form>
                     </div>

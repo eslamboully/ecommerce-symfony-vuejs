@@ -26,6 +26,17 @@
                 <div class="col-md-12">
                     <div class="card">
                         <form role="form" method="post" enctype="multipart/form-data">
+                            {% for message in app.flashes('success') %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body label label-success">
+                                                <div style="font-size: 18px;">{{ message }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
                             {{ form_errors(form) }}
                             {{ form_row(form._token) }}
                             <div class="card-body">

@@ -171,23 +171,6 @@ class ProductFormType extends AbstractType
                 'required' => false,
                 'mapped' => false
             ])
-            ->add('photo_edit',FileType::class,[
-                'label' => 'صورة المنتج الرئيسية',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'constraints' => [new File([
-                    'maxSize' => '1024K',
-                    'mimeTypes' => [
-                        'image/jpg',
-                        'image/jpeg',
-                        'image/png',
-                    ],
-                    'mimeTypesMessage' => 'الملفات المسموح بها فقط هي jpg,png'
-                ])],
-                'required' => false,
-                'mapped' => false
-            ])
             ->add('Trademark',EntityType::class,[
                 'label' => 'العلامة التجارية*',
                 'attr' => [
@@ -248,7 +231,7 @@ class ProductFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-//            'data_class' => Product::class,
+            'data_class' => Product::class,
         ]);
     }
 }

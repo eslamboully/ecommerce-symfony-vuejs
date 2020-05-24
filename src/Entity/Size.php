@@ -27,7 +27,7 @@ class Size
 
     /**
      * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="sizes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $Department;
 

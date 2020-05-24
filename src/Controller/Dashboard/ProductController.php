@@ -2,13 +2,20 @@
 
 namespace App\Controller\Dashboard;
 
+use App\Entity\Country;
 use App\Entity\Department;
 use App\Entity\Product;
 use App\Form\ProductFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
@@ -35,13 +42,28 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("create", name="create")
+     * @Route("create/{copyId?}", name="create")
      */
-    public function create(Request $request)
+    public function create(Request $request,$copyId = null)
     {
-        $departments = json_encode($this->departments_tree(),JSON_PRETTY_PRINT);
         $product = new Product();
-        $form = $this->createForm(ProductFormType::class,$product);
+        if ($request->isMethod('get')){
+            if ($copyId !== null){
+                $newCopyProduct = $this->getDoctrine()->getRepository(Product::class)->find($copyId);
+                $departments = json_encode($this->departments_tree(null,$newCopyProduct->getDepartment() ? $newCopyProduct->getDepartment()->getId() : null),JSON_PRETTY_PRINT);
+                $form = $this->createForm(ProductFormType::class,$newCopyProduct);
+            }else{
+                $departments = json_encode($this->departments_tree(),JSON_PRETTY_PRINT);
+                $form = $this->createForm(ProductFormType::class,$product);
+            }
+
+        }
+
+        if ($request->isMethod('post')){
+            $departments = json_encode($this->departments_tree(),JSON_PRETTY_PRINT);
+            $form = $this->createForm(ProductFormType::class,$product);
+        }
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
@@ -71,7 +93,6 @@ class ProductController extends AbstractController
             foreach ($form->get('Color')->getData() as $color){
                 $product->addColor($color);
             }
-
             foreach ($form->get('Country')->getData() as $country){
                 $product->addCountry($country);
             }
@@ -160,7 +181,6 @@ class ProductController extends AbstractController
             foreach ($form->get('Color')->getData() as $color){
                 $product->addColor($color);
             }
-
             foreach ($form->get('Country')->getData() as $country){
                 $product->addCountry($country);
             }
@@ -172,9 +192,9 @@ class ProductController extends AbstractController
             }
 
             // photo edit
-            if ($form->get('photo_edit')->getData())
+            if ($form->get('photo')->getData())
             {
-                $icon = $form->get('photo_edit')->getData();
+                $icon = $form->get('photo')->getData();
                 $originalFilename = pathinfo($icon->getClientOriginalName(), PATHINFO_FILENAME);
 
                 $safeFilename = $this->slugger->slug($originalFilename);
@@ -229,6 +249,29 @@ class ProductController extends AbstractController
 
         return $this->redirectToRoute('dashboard.products.index');
     }
+
+
+    /**
+     * @Route("specific-state", name="specific.size", methods={"post"})
+     * @return JsonResponse
+     */
+    public function specific(Request $request,SerializerInterface $serializer)
+    {
+        $relatedSizes = $this->getDoctrine()
+            ->getRepository(Department::class)
+            ->find($request->request->get('id')[0])->getSizes();
+
+        $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
+
+        $relatedSizes = $serializer->serialize($relatedSizes, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
+
+        return new Response($relatedSizes, 200, ['Content-Type' => 'application/json']);
+    }
+
 
 
     public function departments_tree($departmentId = null,$parentId = null)

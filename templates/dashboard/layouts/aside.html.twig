@@ -26,7 +26,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
-                    <li class="nav-item">
+                    <li class="nav-item {{ router[1] == 'index' ? 'menu-open' : '' }}">
                         <a href="{{ path('dashboard.index') }}" class="nav-link">
                             <i class="nav-icon fa fa-dashboard"></i>
                             <p>
@@ -384,6 +384,14 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nav-item {{ router[1] == 'settings' ? 'menu-open' : '' }}">
+                        <a href="{{ path('dashboard.settings') }}" class="nav-link">
+                            <i class="nav-icon fa fa-gears"></i>
+                            <p>
+                                الاعدادات
+                            </p>
+                        </a>
                     </li>
                 </ul>
             </nav>
