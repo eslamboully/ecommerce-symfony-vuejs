@@ -1,0 +1,394 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{{ path('dashboard.index') }}" class="brand-link">
+        <img src="{{ asset('dashboard') }}/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+             style="opacity: .8">
+        <span class="brand-text font-weight-light">لوحة التحكم</span>
+    </a>
+
+    {% set router = app.request.attributes.get('_route')|split('.') %}
+
+    <!-- Sidebar -->
+    <div class="sidebar" style="direction: ltr">
+        <div style="direction: rtl">
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <img src="https://secure.gravatar.com/avatar/5ffa2a1ffeb767c60ab7e1052e385d5c?s=52&d=mm&r=g" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <a href="#" class="d-block">{{ app.user.name }}</a>
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                         with font-awesome or any other icon font library -->
+                    <li class="nav-item">
+                        <a href="{{ path('dashboard.index') }}" class="nav-link">
+                            <i class="nav-icon fa fa-dashboard"></i>
+                            <p>
+                                الرئيسية
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'admins' ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-user-secret"></i>
+                            <p>
+                                المشرفين
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.admins.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>المشرفين</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.admins.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'users' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-user"></i>
+                            <p>
+                                المستخدمين
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.users.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>جميع المستخدمين</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.users.index',{"type":1}) }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>الاعضاء</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.users.index',{"type":2}) }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>المتاجر</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.users.index',{"type":3}) }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>الشركات</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.users.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'countries' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-flag"></i>
+                            <p>
+                                الدول
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.countries.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>الدول</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.countries.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'cities' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+{#                            <i class="nav-icon fa fa-canadian-maple-leaf"></i>#}
+                            <i class="nav-icon fa fa-flag-checkered"></i>
+                            <p>
+                                المحافظات / المدن
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.cities.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>المحافظات / المدن</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.cities.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'states' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+{#                            <i class="nav-icon fa fa-canadian-maple-leaf"></i>#}
+                            <i class="nav-icon fa fa-flag"></i>
+                            <p>
+                                المناطق / الاحياء
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.states.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>المناطق / الاحياء</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.states.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'departments' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+{#                            <i class="nav-icon fa fa-canadian-maple-leaf"></i>#}
+                            <i class="nav-icon fa fa-list-ol"></i>
+                            <p>
+                                الاقسام
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.departments.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>الاقسام</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.departments.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'trademarks' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+{#                            <i class="nav-icon fa fa-canadian-maple-leaf"></i>#}
+                            <i class="nav-icon fa fa-trademark"></i>
+                            <p>
+                                العلامات التجارية
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.trademarks.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>العلامات التجارية</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.trademarks.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'manufacts' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+{#                            <i class="nav-icon fa fa-canadian-maple-leaf"></i>#}
+                            <i class="nav-icon fa fa-rocket"></i>
+                            <p>
+                                المصنعين
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.manufacts.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>المصنعين</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.manufacts.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'shippings' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+{#                            <i class="nav-icon fa fa-canadian-maple-leaf"></i>#}
+                            <i class="nav-icon fa fa-truck"></i>
+                            <p>
+                                شركات الشحن
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.shippings.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>شركات الشحن</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.shippings.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'malls' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+{#                            <i class="nav-icon fa fa-canadian-maple-leaf"></i>#}
+                            <i class="nav-icon fa fa-building"></i>
+                            <p>
+                                المجمعات التجارية
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.malls.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>المجمعات التجارية</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.malls.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'colors' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+{#                            <i class="nav-icon fa fa-canadian-maple-leaf"></i>#}
+                            <i class="nav-icon fa fa-paint-brush"></i>
+                            <p>
+                                الالوان
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.colors.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>الالوان</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.colors.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'sizes' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+{#                            <i class="nav-icon fa fa-canadian-maple-leaf"></i>#}
+                            <i class="nav-icon fa fa-sliders"></i>
+                            <p>
+                                المقاسات
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.sizes.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>المقاسات</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.sizes.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'weights' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+{#                            <i class="nav-icon fa fa-canadian-maple-leaf"></i>#}
+                            <i class="nav-icon fa fa-archive"></i>
+                            <p>
+                                الاوزان
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.weights.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>الاوزان</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.weights.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview {{ router[1] == 'products' ? 'menu-open' : '' }}"> {# menu-open #}
+                        <a href="#" class="nav-link">
+{#                            <i class="nav-icon fa fa-canadian-maple-leaf"></i>#}
+                            <i class="nav-icon fa fa-tag"></i>
+                            <p>
+                                المنتجات
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.products.index') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>المنتجات</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard.products.create') }}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>اضف</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+    </div>
+    <!-- /.sidebar -->
+</aside>

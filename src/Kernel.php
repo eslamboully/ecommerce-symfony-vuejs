@@ -17,6 +17,8 @@ class Kernel extends BaseKernel
 
     public function registerBundles(): iterable
     {
+        //$bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+
         $contents = require $this->getProjectDir().'/config/bundles.php';
         foreach ($contents as $class => $envs) {
             if ($envs[$this->environment] ?? $envs['all'] ?? false) {

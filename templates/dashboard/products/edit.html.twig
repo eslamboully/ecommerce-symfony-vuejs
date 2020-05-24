@@ -1,0 +1,236 @@
+{% extends 'dashboard/layouts/base.html.twig' %}
+
+{% block content %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">تعديل لون</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="{{ path('dashboard.index') }}">الرئيسية</a></li>
+                        <li class="breadcrumb-item"><a href="{{ path('dashboard.colors.index') }}">الالوان</a></li>
+                        <li class="breadcrumb-item active">تعديل</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <div style="margin-bottom: 10px">
+                                <button type="submit" class="btn btn-info"> حفظ <i class="fa fa-save"></i> </button>
+                                <a href="" class="btn btn-success"> حفظ واستمرار <i class="fa fa-save"></i></a>
+                                <a href="" class="btn btn-primary"> نسخ المنتج <i class="fa fa-copy"></i></a>
+                                <a href="" class="btn btn-danger"> حذف <i class="fa fa-trash"></i></a>
+                            </div>
+                            {{ form_errors(form) }}
+                            {{ form_row(form._token) }}
+                            <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="custom-content-below-info-tab" data-toggle="pill" href="#custom-content-below-info" role="tab" aria-controls="custom-content-below-home" aria-selected="true">معلومات المنتج</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-content-below-department-tab" data-toggle="pill" href="#custom-content-below-department" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">القسم</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-content-below-settings-tab" data-toggle="pill" href="#custom-content-below-settings" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">اعدادات المنتج</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-content-below-content-tab" data-toggle="pill" href="#custom-content-below-content" role="tab" aria-controls="custom-content-below-messages" aria-selected="false">سبب الرفض </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-content-below-sizes-tab" data-toggle="pill" href="#custom-content-below-sizes" role="tab" aria-controls="custom-content-below-settings" aria-selected="false">معلومات الشحن</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-content-below-other-tab" data-toggle="pill" href="#custom-content-below-other" role="tab" aria-controls="custom-content-below-settings" aria-selected="false">معلومات اضافية</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="custom-content-below-tabContent">
+                                <div class="tab-pane fade active show" id="custom-content-below-info" role="tabpanel" aria-labelledby="custom-content-below-info-tab">
+                                    <div style="margin: 10px">
+                                        <h3>معلومات اضافية</h3>
+                                        <div class="form-group">
+                                            {{ form_label(form.title) }}
+                                            {{ form_widget(form.title) }}
+                                            <div style="color: red" class="errors">{{ form_errors(form.title) }}</div>
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form_label(form.content) }}
+                                            {{ form_widget(form.content) }}
+                                            <div style="color: red" class="errors">{{ form_errors(form.content) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade show" id="custom-content-below-department" role="tabpanel" aria-labelledby="custom-content-below-department-tab">
+                                    <div style="margin: 10px">
+                                        <h3>القسم</h3>
+                                        <div class="form-group">
+                                            <input id="department_form_department" type="hidden" name="department_id" value="">
+                                            {#                                            <label for="">اختر القسم</label>#}
+                                            <div id="jstree_demo_div"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-content-below-settings" role="tabpanel" aria-labelledby="custom-content-below-settings-tab">
+                                    <div style="margin: 10px">
+                                        <h3>اعدادات المنتج</h3>
+                                        <div class="row">
+                                            <div class="form-group col-md-3 col-lg-3 col-sm-3 col-sm-12">
+                                                {{ form_label(form.price) }}
+                                                {{ form_widget(form.price) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.price) }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3 col-lg-3 col-sm-3 col-sm-12">
+                                                {{ form_label(form.stock) }}
+                                                {{ form_widget(form.stock) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.stock) }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3 col-lg-3 col-sm-3 col-sm-12">
+                                                {{ form_label(form.start_at) }}
+                                                {{ form_widget(form.start_at) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.start_at) }}</div>
+                                            </div>
+                                            <div class="form-group col-md-3 col-lg-3 col-sm-3 col-sm-12">
+                                                {{ form_label(form.end_at) }}
+                                                {{ form_widget(form.end_at) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.end_at) }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form_label(form.price_offer) }}
+                                            {{ form_widget(form.price_offer) }}
+                                            <div style="color: red" class="errors">{{ form_errors(form.price_offer) }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
+                                                {{ form_label(form.start_offer_at) }}
+                                                {{ form_widget(form.start_offer_at) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.start_offer_at) }}</div>
+                                            </div>
+                                            <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
+                                                {{ form_label(form.end_offer_at) }}
+                                                {{ form_widget(form.end_offer_at) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.end_offer_at) }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-content-below-content" role="tabpanel" aria-labelledby="custom-content-below-content-tab">
+                                    <div style="margin: 10px">
+                                        <h3>سبب الرفض والحالة</h3>
+                                        <div class="form-group">
+                                            {{ form_label(form.status) }}
+                                            {{ form_widget(form.status) }}
+                                            <div style="color: red" class="errors">{{ form_errors(form.status) }}</div>
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form_label(form.reason) }}
+                                            {{ form_widget(form.reason) }}
+                                            <div style="color: red" class="errors">{{ form_errors(form.reason) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-content-below-sizes" role="tabpanel" aria-labelledby="custom-content-below-sizes-tab">
+                                    <div style="margin: 10px">
+                                        <h3>الوزن والحجم</h3>
+                                        <div class="row">
+                                            <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
+                                                {{ form_label(form.weight) }}
+                                                {{ form_widget(form.weight) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.weight) }}</div>
+                                            </div>
+                                            <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
+                                                {{ form_label(form.weight_string) }}
+                                                {{ form_widget(form.weight_string) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.weight_string) }}</div>
+                                            </div>
+                                            <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
+                                                {{ form_label(form.Color) }}
+                                                {{ form_widget(form.Color) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.Color) }}</div>
+                                            </div>
+                                            <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
+                                                {{ form_label(form.Country) }}
+                                                {{ form_widget(form.Country) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.Country) }}</div>
+                                            </div>
+                                            <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
+                                                {{ form_label(form.Size) }}
+                                                {{ form_widget(form.Size) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.Size) }}</div>
+                                            </div>
+                                            <div class="form-group col-md-6 col-lg-6 col-sm-6 col-sm-12">
+                                                {{ form_label(form.ManuFact) }}
+                                                {{ form_widget(form.ManuFact) }}
+                                                <div style="color: red" class="errors">{{ form_errors(form.ManuFact) }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-content-below-other" role="tabpanel" aria-labelledby="custom-content-below-other-tab">
+                                    <div style="margin: 10px">
+                                        <h3>معلومات اضافية</h3>
+                                        {{ form_label(form.photo) }}
+                                        {{ form_widget(form.photo) }}
+                                        <div style="color: red" class="errors">{{ form_errors(form.photo) }}</div>
+                                        {{ form_label(form.Trademark) }}
+                                        {{ form_widget(form.Trademark) }}
+                                        <div style="color: red" class="errors">{{ form_errors(form.Trademark) }}</div>
+                                        {{ form_label(form.other_data) }}
+                                        {{ form_widget(form.other_data) }}
+                                        <div style="color: red" class="errors">{{ form_errors(form.other_data) }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 5px;margin-top: 10px">
+                                <button type="submit" class="btn btn-info"> حفظ <i class="fa fa-save"></i> </button>
+                                <a href="" class="btn btn-success"> حفظ واستمرار <i class="fa fa-save"></i></a>
+                                <a href="" class="btn btn-primary"> نسخ المنتج <i class="fa fa-copy"></i></a>
+                                <a href="" class="btn btn-danger"> حذف <i class="fa fa-trash"></i></a>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+    </section>
+
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('dashboard') }}/dist/themes/default/style.min.css" />
+    <link rel="stylesheet" href="{{ asset('dashboard') }}/plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="{{ asset('dashboard') }}/plugins/select2/select2-bootstrap4.min.css">
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('dashboard') }}/dist/jstree.min.js"></script>
+    <script src="{{ asset('dashboard') }}/plugins/select2/select2.full.min.js"></script>1111
+
+    <script>
+        $(function () { $('#jstree_demo_div').jstree({ 'core' : {
+                'data' : {{ departments | raw }}
+            } }); });
+
+        $('#jstree_demo_div').on("changed.jstree", function (e, data) {
+            $('#department_form_department').val(data.selected);
+        });
+
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
+{% endblock %}

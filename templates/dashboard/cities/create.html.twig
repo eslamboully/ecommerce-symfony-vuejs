@@ -1,0 +1,56 @@
+{% extends 'dashboard/layouts/base.html.twig' %}
+
+{% block content %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">اضف مدينة</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="{{ path('dashboard.index') }}">الرئيسية</a></li>
+                        <li class="breadcrumb-item"><a href="{{ path('dashboard.countries.index') }}">المدن</a></li>
+                        <li class="breadcrumb-item active">اضف</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                            <form role="form" method="post" enctype="multipart/form-data">
+                                {{ form_errors(form) }}
+                                {{ form_row(form._token) }}
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        {{ form_label(form.name) }}
+                                        {{ form_widget(form.name) }}
+                                        <div style="color: red" class="errors">{{ form_errors(form.name) }}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form_label(form.Country) }}
+                                        {{ form_widget(form.Country) }}
+                                        <div style="color: red" class="errors">{{ form_errors(form.Country) }}</div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">ارسال</button>
+                                </div>
+                            </form>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+{% endblock %}

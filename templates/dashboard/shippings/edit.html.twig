@@ -1,0 +1,131 @@
+{% extends 'dashboard/layouts/base.html.twig' %}
+
+{% block content %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">تعديل شركات الشحن</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="{{ path('dashboard.index') }}">الرئيسية</a></li>
+                        <li class="breadcrumb-item"><a href="{{ path('dashboard.shippings.index') }}">شركات الشحن</a></li>
+                        <li class="breadcrumb-item active">تعديل</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <form role="form" method="post" enctype="multipart/form-data">
+                            {{ form_errors(form) }}
+                            {{ form_row(form._token) }}
+                            <div class="card-body">
+                                <div class="form-group">
+                                    {{ form_label(form.name) }}
+                                    {{ form_widget(form.name) }}
+                                    <div style="color: red" class="errors">{{ form_errors(form.name) }}</div>
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form_label(form.User) }}
+                                    {{ form_widget(form.User) }}
+                                    <div style="color: red" class="errors">{{ form_errors(form.User) }}</div>
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form_label(form.address) }}
+                                    {{ form_widget(form.address) }}
+                                    <div style="color: red" class="errors">{{ form_errors(form.address) }}</div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{ form_label(form.lng) }}
+                                            {{ form_widget(form.lng) }}
+                                            <div style="color: red" class="errors">{{ form_errors(form.lng) }}</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{ form_label(form.lat) }}
+                                            {{ form_widget(form.lat) }}
+                                            <div style="color: red" class="errors">{{ form_errors(form.lat) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div id="map"></div>
+                                    <pre id="coordinates" class="coordinates"></pre>
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form_label(form.icon) }}
+                                    {{ form_widget(form.icon) }}
+                                    <div style="color: red" class="errors">{{ form_errors(form.icon) }}</div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">ارسال</button>
+                            </div>
+                        </form>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+{% endblock %}
+
+{% block css %}
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css" rel="stylesheet" />
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { top: 0; bottom: 0;height: 300px; width: 100%; }
+    </style>
+{% endblock %}
+
+{% block js %}
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZXNsYW1ib3VsbHkiLCJhIjoiY2thaWdncDE3MDBqMjJ6dGR4cHhzeDlkYiJ9.ZUE0a2peQttyyS3jxfiPlQ';
+        var coordinates = document.getElementById('coordinates');
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [{{ shipping.lng != null ? shipping.lng : 31.16846825678161 }}, {{ shipping.lat != null ? shipping.lat : 29.979570192574613 }}],
+            zoom: 5
+        });
+
+        var marker = new mapboxgl.Marker({
+            draggable: true
+        })
+            .setLngLat([{{ shipping.lng != null ? shipping.lng : 31.16846825678161 }}, {{ shipping.lat != null ? shipping.lat : 29.979570192574613 }}])
+            .addTo(map);
+
+        function onDragEnd() {
+            var lngLat = marker.getLngLat();
+            coordinates.style.display = 'block';
+            $('#shipping_form_lng').val(lngLat.lng);
+            $('#shipping_form_lat').val(lngLat.lat);
+        }
+
+        marker.on('dragend', onDragEnd);
+    </script>
+
+    <script>
+
+    </script>
+{% endblock %}

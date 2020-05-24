@@ -1,0 +1,79 @@
+{% extends 'dashboard/layouts/base.html.twig' %}
+
+{% block content %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">اضف مقاس</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="{{ path('dashboard.index') }}">الرئيسية</a></li>
+                        <li class="breadcrumb-item"><a href="{{ path('dashboard.sizes.index') }}">المقاسات</a></li>
+                        <li class="breadcrumb-item active">اضف</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                            <form role="form" method="post" enctype="multipart/form-data">
+                                {{ form_errors(form) }}
+                                {{ form_row(form._token) }}
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        {{ form_label(form.name) }}
+                                        {{ form_widget(form.name) }}
+                                        <div style="color: red" class="errors">{{ form_errors(form.name) }}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="department_form_department" type="hidden" name="department_id" value="">
+                                        <label for="">القسم الرئيسي</label>
+                                        <div id="jstree_demo_div"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form_label(form.is_public) }}
+                                        {{ form_widget(form.is_public) }}
+                                        <div style="color: red" class="errors">{{ form_errors(form.is_public) }}</div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">ارسال</button>
+                                </div>
+                            </form>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('dashboard') }}/dist/themes/default/style.min.css" />
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('dashboard') }}/dist/jstree.min.js"></script>
+
+    <script>
+        $(function () { $('#jstree_demo_div').jstree({ 'core' : {
+                'data' : {{ departments | raw }}
+            } }); });
+
+        $('#jstree_demo_div').on("changed.jstree", function (e, data) {
+            $('#department_form_department').val(data.selected);
+        });
+    </script>
+{% endblock %}
