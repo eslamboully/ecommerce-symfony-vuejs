@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +23,7 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class ProductFormType extends AbstractType
 {
@@ -53,7 +55,7 @@ class ProductFormType extends AbstractType
                     'placeholder' => 'اكتب سعر المنتج'
                 ],
                 'required' => false,
-                'constraints' => [new NotBlank()]
+                // 'constraints' => [new NotBlank()]
             ])
             ->add('stock',NumberType::class,[
                 'label' => 'المخزن*',
@@ -62,7 +64,7 @@ class ProductFormType extends AbstractType
                     'placeholder' => 'العدد الموجود في المخزن'
                 ],
                 'required' => false,
-                'constraints' => [new NotBlank()]
+                // 'constraints' => [new NotBlank()]
             ])
             ->add('start_at',DateType::class,[
                 'label' => 'يبدأ في*',
@@ -71,7 +73,7 @@ class ProductFormType extends AbstractType
                     'placeholder' => 'يبدأ عرضه في'
                 ],
                 'required' => false,
-                'constraints' => [new NotBlank()]
+                // 'constraints' => [new NotBlank()]
             ])
             ->add('end_at',DateType::class,[
                 'label' => 'ينتهي في*',
@@ -80,7 +82,7 @@ class ProductFormType extends AbstractType
                     'placeholder' => 'ينتهي عرضه في'
                 ],
                 'required' => false,
-                'constraints' => [new NotBlank()]
+                // 'constraints' => [new NotBlank()]
             ])
             ->add('price_offer',NumberType::class,[
                 'label' => 'سعر العرض الخاص',
@@ -120,7 +122,7 @@ class ProductFormType extends AbstractType
                     'مرفوض' => 3,
                 ],
                 'required' => false,
-                'constraints' => [new NotBlank()]
+                // 'constraints' => [new NotBlank()]
             ])
             ->add('reason',TextareaType::class,[
                 'label' => 'سبب الرفض',
@@ -169,6 +171,23 @@ class ProductFormType extends AbstractType
                 'required' => false,
                 'mapped' => false
             ])
+            ->add('photo_edit',FileType::class,[
+                'label' => 'صورة المنتج الرئيسية',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [new File([
+                    'maxSize' => '1024K',
+                    'mimeTypes' => [
+                        'image/jpg',
+                        'image/jpeg',
+                        'image/png',
+                    ],
+                    'mimeTypesMessage' => 'الملفات المسموح بها فقط هي jpg,png'
+                ])],
+                'required' => false,
+                'mapped' => false
+            ])
             ->add('Trademark',EntityType::class,[
                 'label' => 'العلامة التجارية*',
                 'attr' => [
@@ -177,7 +196,7 @@ class ProductFormType extends AbstractType
                 'class' => Trademark::class,
                 'choice_label' => 'name',
                 'required' => false,
-                'constraints' => [new NotBlank()],
+                // 'constraints' => [new NotBlank()],
             ])->add('Color',EntityType::class,[
                 'label' => 'الالوان المتاحة*',
                 'attr' => [
@@ -185,7 +204,7 @@ class ProductFormType extends AbstractType
                 ],
                 'class' => Color::class,
                 'choice_label' => 'name',
-                'constraints' => [new NotBlank()],
+                // 'constraints' => [new NotBlank()],
                 'multiple' => true,
                 'required' => false,
             ])
@@ -196,7 +215,7 @@ class ProductFormType extends AbstractType
                 ],
                 'class' => Country::class,
                 'choice_label' => 'name',
-                'constraints' => [new NotBlank()],
+                // 'constraints' => [new NotBlank()],
                 'multiple' => true,
                 'required' => false,
             ])
@@ -207,7 +226,7 @@ class ProductFormType extends AbstractType
                 ],
                 'class' => Size::class,
                 'choice_label' => 'name',
-                'constraints' => [new NotBlank()],
+                // 'constraints' => [new NotBlank()],
                 'multiple' => true,
                 'required' => false,
             ])
@@ -218,7 +237,7 @@ class ProductFormType extends AbstractType
                 ],
                 'class' => ManuFact::class,
                 'choice_label' => 'name',
-                'constraints' => [new NotBlank()],
+                // 'constraints' => [new NotBlank()],
                 'multiple' => true,
                 'required' => false,
             ])
@@ -229,7 +248,7 @@ class ProductFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Product::class,
+//            'data_class' => Product::class,
         ]);
     }
 }

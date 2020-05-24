@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">تعديل لون</h1>
+                    <h1 class="m-0 text-dark">تعديل المنتج</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><a href="{{ path('dashboard.index') }}">الرئيسية</a></li>
-                        <li class="breadcrumb-item"><a href="{{ path('dashboard.colors.index') }}">الالوان</a></li>
+                        <li class="breadcrumb-item"><a href="{{ path('dashboard.products.index') }}">المنتجات</a></li>
                         <li class="breadcrumb-item active">تعديل</li>
                     </ol>
                 </div><!-- /.col -->
@@ -27,10 +27,22 @@
                 <div class="card card-primary card-outline">
                     <div class="card-body">
                         <form action="" method="post" enctype="multipart/form-data">
+                            {% for message in app.flashes('success') %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body label label-success">
+                                                <div style="font-size: 18px;">{{ message }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
                             <div style="margin-bottom: 10px">
-                                <button type="submit" class="btn btn-info"> حفظ <i class="fa fa-save"></i> </button>
-                                <a href="" class="btn btn-success"> حفظ واستمرار <i class="fa fa-save"></i></a>
+                                <button name="save" class="btn btn-info"> حفظ <i class="fa fa-save"></i> </button>
+                                <button name="save_and_continue" class="btn btn-success"> حفظ واستمرار <i class="fa fa-save"></i></button>
                                 <a href="" class="btn btn-primary"> نسخ المنتج <i class="fa fa-copy"></i></a>
+                                <a href="{{ path('dashboard.products.index') }}" class="btn btn-default"> رجوع <i class="fa fa-arrow-left"></i></a>
                                 <a href="" class="btn btn-danger"> حذف <i class="fa fa-trash"></i></a>
                             </div>
                             {{ form_errors(form) }}
@@ -58,7 +70,7 @@
                             <div class="tab-content" id="custom-content-below-tabContent">
                                 <div class="tab-pane fade active show" id="custom-content-below-info" role="tabpanel" aria-labelledby="custom-content-below-info-tab">
                                     <div style="margin: 10px">
-                                        <h3>معلومات اضافية</h3>
+                                        <h3>معلومات المنتج</h3>
                                         <div class="form-group">
                                             {{ form_label(form.title) }}
                                             {{ form_widget(form.title) }}
@@ -180,9 +192,9 @@
                                 <div class="tab-pane fade" id="custom-content-below-other" role="tabpanel" aria-labelledby="custom-content-below-other-tab">
                                     <div style="margin: 10px">
                                         <h3>معلومات اضافية</h3>
-                                        {{ form_label(form.photo) }}
-                                        {{ form_widget(form.photo) }}
-                                        <div style="color: red" class="errors">{{ form_errors(form.photo) }}</div>
+                                        {{ form_label(form.photo_edit) }}
+                                        {{ form_widget(form.photo_edit) }}
+                                        <div style="color: red" class="errors">{{ form_errors(form.photo_edit) }}</div>
                                         {{ form_label(form.Trademark) }}
                                         {{ form_widget(form.Trademark) }}
                                         <div style="color: red" class="errors">{{ form_errors(form.Trademark) }}</div>
@@ -193,9 +205,10 @@
                                 </div>
                             </div>
                             <div style="margin-bottom: 5px;margin-top: 10px">
-                                <button type="submit" class="btn btn-info"> حفظ <i class="fa fa-save"></i> </button>
-                                <a href="" class="btn btn-success"> حفظ واستمرار <i class="fa fa-save"></i></a>
+                                <button name="save" class="btn btn-info"> حفظ <i class="fa fa-save"></i> </button>
+                                <button name="save_and_continue" class="btn btn-success"> حفظ واستمرار <i class="fa fa-save"></i></button>
                                 <a href="" class="btn btn-primary"> نسخ المنتج <i class="fa fa-copy"></i></a>
+                                <a href="{{ path('dashboard.products.index') }}" class="btn btn-default"> رجوع <i class="fa fa-arrow-left"></i></a>
                                 <a href="" class="btn btn-danger"> حذف <i class="fa fa-trash"></i></a>
                             </div>
                         </form>

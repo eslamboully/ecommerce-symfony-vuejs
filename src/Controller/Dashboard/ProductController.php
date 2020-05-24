@@ -39,7 +39,6 @@ class ProductController extends AbstractController
      */
     public function create(Request $request)
     {
-        // dd($request->request->all());
         $departments = json_encode($this->departments_tree(),JSON_PRETTY_PRINT);
         $product = new Product();
         $form = $this->createForm(ProductFormType::class,$product);
@@ -47,6 +46,7 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            // standard
             $product->setTitle($form->get('title')->getData());
             $product->setContent($form->get('content')->getData());
 
@@ -109,6 +109,10 @@ class ProductController extends AbstractController
             $this->addFlash('success','تمت الاضافة بنجاح');
             $entityManager->flush();
 
+            if ($request->request->has('save_and_continue'))
+            {
+                return $this->redirectToRoute('dashboard.products.edit',['id'=>$product->getId()]);
+            }
             return $this->redirectToRoute('dashboard.products.index');
 
         }
@@ -125,12 +129,13 @@ class ProductController extends AbstractController
     public function edit(Request $request,$id)
     {
         $product = $this->getDoctrine()->getRepository(Product::class)->find($id);
-        $departments = json_encode($this->departments_tree(null,$product->getDepartment()->getId()),JSON_PRETTY_PRINT);
+        $departments = json_encode($this->departments_tree(null,$product->getDepartment() ? $product->getDepartment()->getId() : null),JSON_PRETTY_PRINT);
         $form = $this->createForm(ProductFormType::class,$product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            // standard
             $product->setTitle($form->get('title')->getData());
             $product->setContent($form->get('content')->getData());
 
@@ -166,10 +171,10 @@ class ProductController extends AbstractController
                 $product->addManuFact($manufact);
             }
 
-            // photo
-            if ($form->get('photo')->getData())
+            // photo edit
+            if ($form->get('photo_edit')->getData())
             {
-                $icon = $form->get('photo')->getData();
+                $icon = $form->get('photo_edit')->getData();
                 $originalFilename = pathinfo($icon->getClientOriginalName(), PATHINFO_FILENAME);
 
                 $safeFilename = $this->slugger->slug($originalFilename);
@@ -193,6 +198,10 @@ class ProductController extends AbstractController
             $this->addFlash('success','تمت التعديلات بنجاح');
             $entityManager->flush();
 
+            if ($request->request->has('save_and_continue'))
+            {
+                return $this->redirectToRoute('dashboard.products.edit',['id'=>$product->getId()]);
+            }
             return $this->redirectToRoute('dashboard.products.index');
 
         }
