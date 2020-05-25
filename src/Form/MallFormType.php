@@ -20,6 +20,7 @@ class MallFormType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'المجمع التجاري'
                 ],
+                'required' => false,
                 'constraints' => [new NotBlank()]
             ])
             ->add('Owner',TextType::class,[
@@ -28,6 +29,7 @@ class MallFormType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'المسؤول'
                 ],
+                'required' => false,
                 'constraints' => [new NotBlank()]
             ])
             ->add('email',TextType::class,[
@@ -36,6 +38,7 @@ class MallFormType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'البريد الالكتروني الرسمي'
                 ],
+                'required' => false,
                 'constraints' => [new NotBlank()]
             ])
             ->add('phone',TextType::class,[
@@ -44,6 +47,7 @@ class MallFormType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'رقم الهاتف'
                 ],
+                'required' => false,
                 'constraints' => [new NotBlank()]
             ])
             ->add('address',TextType::class,[
@@ -52,6 +56,7 @@ class MallFormType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'العنوان'
                 ],
+                'required' => false,
                 'constraints' => [new NotBlank()]
             ])
         ;

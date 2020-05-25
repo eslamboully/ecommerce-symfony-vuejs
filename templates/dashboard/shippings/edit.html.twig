@@ -106,7 +106,7 @@
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [{{ shipping.lng != null ? shipping.lng : 31.16846825678161 }}, {{ shipping.lat != null ? shipping.lat : 29.979570192574613 }}],
-            zoom: 5
+            zoom: 17
         });
 
         var marker = new mapboxgl.Marker({

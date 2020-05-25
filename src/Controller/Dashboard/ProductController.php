@@ -5,6 +5,7 @@ namespace App\Controller\Dashboard;
 use App\Entity\Country;
 use App\Entity\Department;
 use App\Entity\Product;
+use App\Entity\Size;
 use App\Form\ProductFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -228,6 +229,7 @@ class ProductController extends AbstractController
 
         }
 
+
         return $this->render('dashboard/products/edit.html.twig',[
             'form' => $form->createView(),
             'departments' => $departments,
@@ -259,9 +261,14 @@ class ProductController extends AbstractController
      */
     public function specific(Request $request,SerializerInterface $serializer)
     {
-        $relatedSizes = $this->getDoctrine()
+        $department = $this->getDoctrine()
             ->getRepository(Department::class)
-            ->find($request->request->get('id')[0])->getSizes();
+            ->find($request->request->get('id')[0]);
+
+            $relatedSizes = $this->getDoctrine()
+                ->getRepository(Size::class)
+                ->findByIdOrParentIdOrPublic($department,$department->getParent() ? $department->getParent(): null);
+
 
         $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
 

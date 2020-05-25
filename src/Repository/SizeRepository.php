@@ -22,19 +22,21 @@ class SizeRepository extends ServiceEntityRepository
     // /**
     //  * @return Size[] Returns an array of Size objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findByIdOrParentIdOrPublic($department,$parent = null)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andwhere('s.Department = :Department')
+            ->orWhere('s.is_public = 1')
+            ->orWhere('s.Department = :Parent')
+            ->setParameter('Department', $department)
+            ->setParameter('Parent', $parent)
             ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Size

@@ -65,7 +65,7 @@
                                             {{ form_widget(form.title) }}
                                             <div style="color: red" class="errors">{{ form_errors(form.title) }}</div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" >
                                             {{ form_label(form.content) }}
                                             {{ form_widget(form.content) }}
                                             <div style="color: red" class="errors">{{ form_errors(form.content) }}</div>
@@ -222,11 +222,14 @@
     <link rel="stylesheet" href="{{ asset('dashboard') }}/dist/themes/default/style.min.css" />
     <link rel="stylesheet" href="{{ asset('dashboard') }}/plugins/select2/select2.min.css">
     <link rel="stylesheet" href="{{ asset('dashboard') }}/plugins/select2/select2-bootstrap4.min.css">
+{#    <link rel="stylesheet" href="{{ asset('dashboard') }}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">#}
 {% endblock %}
 
 {% block js %}
     <script src="{{ asset('dashboard') }}/dist/jstree.min.js"></script>
     <script src="{{ asset('dashboard') }}/plugins/select2/select2.full.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.14.0/standard-all/ckeditor.js"></script>
+    {#    <script src="{{ asset('dashboard') }}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>#}
 
     <script type="text/javascript">
 
@@ -259,6 +262,19 @@
 
         $(document).ready(function() {
             $('.select2').select2();
+            CKEDITOR.replace('product_form[content]',{
+                extraPlugins: 'language',
+                language_list: ['ar:Arabic:rtl'],
+                contentsLangDirection: 'rtl',
+                height: 200
+            });
+
+            CKEDITOR.replace('product_form[other_data]',{
+                extraPlugins: 'language',
+                language_list: ['ar:Arabic:rtl'],
+                contentsLangDirection: 'rtl',
+                height: 200
+            });
         });
     </script>
 {% endblock %}

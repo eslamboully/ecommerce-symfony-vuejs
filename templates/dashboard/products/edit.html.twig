@@ -232,36 +232,38 @@
     <link rel="stylesheet" href="{{ asset('dashboard') }}/dist/themes/default/style.min.css" />
     <link rel="stylesheet" href="{{ asset('dashboard') }}/plugins/select2/select2.min.css">
     <link rel="stylesheet" href="{{ asset('dashboard') }}/plugins/select2/select2-bootstrap4.min.css">
+
 {% endblock %}
 
 {% block js %}
     <script src="{{ asset('dashboard') }}/dist/jstree.min.js"></script>
-    <script src="{{ asset('dashboard') }}/plugins/select2/select2.full.min.js"></script>1111
+    <script src="{{ asset('dashboard') }}/plugins/select2/select2.full.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.14.0/standard-all/ckeditor.js"></script>
 
     <script>
-        $(document).ready(function () {
-            let id = $('#department_form_department').val();
-            // var selectedCountryId = $(country).children("option:selected").val();
+        {#$(document).ready(function () {#}
+        {#    let id = $('#department_form_department').val();#}
+        {#    // var selectedCountryId = $(country).children("option:selected").val();#}
 
-            $.ajax({
-                'method': 'POST',
-                'url' : '{{ path('dashboard.products.specific.size') }}',
-                'type' : 'json',
-                'data' : {id:id},
-                success : function (data_ajax) {
-                    $('#product_form_Size').html('');
-                    $.each(data_ajax, function( index, size ) {
-                        $('#product_form_Size').append(`<option value="${size.id}">${size.name}</option>`);
-                    });
-                },
-                beforeSend: function(){
-                    $('.card-footer button').attr('disabled' ,'disabled');
-                },
-                complete: function(){
-                    $('.card-footer button').removeAttr('disabled' ,'disabled');
-                },
-            });
-        });
+        {#    #}{#$.ajax(#}{#}#}
+        {#    #}{#    'method': 'POST',#}
+        {#    #}{#    'url' : '{{ path('dashboard.products.specific.size') }}',#}
+        {#    #}{#    'type' : 'json',#}
+        {#    #}{#    'data' : {id:id},#}
+        {#    #}{#    success : function (data_ajax) #}{#}#}
+        {#    #}{#        $('#product_form_Size').html('');#}
+        {#    #}{#        $.each(data_ajax, function( index, size ) #}{#}#}
+        {#    #}{#            $('#product_form_Size').append(`<option value="${size.id}">${size.name}</option>`);#}
+        {#    #}{#        });#}
+        {#    #}{#    },#}
+        {#    #}{#    beforeSend: function()#}{#}#}
+        {#    #}{#        $('.card-footer button').attr('disabled' ,'disabled');#}
+        {#    #}{#    },#}
+        {#    #}{#    complete: function()#}{#}#}
+        {#    #}{#        $('.card-footer button').removeAttr('disabled' ,'disabled');#}
+        {#    #}{#    },#}
+        {#    #}{#});#}
+        {#});#}
 
         $(function () { $('#jstree_demo_div').jstree({ 'core' : {
                 'data' : {{ departments | raw }}
@@ -292,6 +294,19 @@
 
         $(document).ready(function() {
             $('.select2').select2();
+            CKEDITOR.replace('product_form[content]',{
+                extraPlugins: 'language',
+                language_list: ['ar:Arabic:rtl'],
+                contentsLangDirection: 'rtl',
+                height: 200
+            });
+
+            CKEDITOR.replace('product_form[other_data]',{
+                extraPlugins: 'language',
+                language_list: ['ar:Arabic:rtl'],
+                contentsLangDirection: 'rtl',
+                height: 200
+            });
         });
     </script>
 {% endblock %}
