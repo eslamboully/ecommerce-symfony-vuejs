@@ -1,0 +1,87 @@
+{% extends 'dashboard/layouts/base.html.twig' %}
+
+{% block content %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">الاعدادات</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="{{ path('dashboard.index') }}">الرئيسية</a></li>
+                        <li class="breadcrumb-item active">الاعدادات</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+{#                            <h3 class="card-title"></h3>#}
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            {% for message in app.flashes('success') %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body label label-success">
+                                                <div style="font-size: 18px;">{{ message }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% for setting in settings %}
+                                    <div class="form-group">
+                                        {% if (setting.type == 1) %}
+                                            <label for="">{{ setting.displayName }}</label>
+                                            <input type="text" class="form-control" name="settings[{{ setting.var }}]" value="{{ setting.value }}">
+                                        {% elseif (setting.type == 2) %}
+                                            <label for="">{{ setting.displayName }}</label>
+                                            <textarea class="form-control" name="settings[{{ setting.var }}]">{{ setting.value|raw }}</textarea>
+                                        {% elseif (setting.type == 3) %}
+                                            <label for="">{{ setting.displayName }}</label>
+                                            <br/>
+                                            <input type="file" name="settings[{{ setting.var }}]">
+                                            {% if (setting.value != null) %}
+                                                <img src="{{ asset('uploads/settings/'~setting.value) }}" style="width: 80px;height: 80px" alt="">
+                                            {% else %}
+                                                <img src="{{ asset('uploads/settings/default.jpg') }}" style="width: 80px;height: 80px" alt="">
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+
+                                <button class="btn btn-success"> حفظ الاعدادات <i class="fa fa-save"></i></button>
+                            </form>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $('textarea').ckeditor({
+            extraPlugins: 'language',
+            language_list: ['ar:Arabic:rtl'],
+            contentsLangDirection: 'rtl',
+            height: 200
+        });
+    </script>
+{% endblock %}

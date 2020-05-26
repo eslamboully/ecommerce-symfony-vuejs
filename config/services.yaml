@@ -9,6 +9,7 @@ parameters:
     uploads_manufacts: '%kernel.project_dir%/public/uploads/manufacts'
     uploads_shipping: '%kernel.project_dir%/public/uploads/shippings'
     uploads_product: '%kernel.project_dir%/public/uploads/products'
+    uploads_settings: '%kernel.project_dir%/public/uploads/settings'
 
 services:
     # default configuration for services in *this* file
