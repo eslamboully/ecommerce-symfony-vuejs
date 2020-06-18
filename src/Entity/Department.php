@@ -41,12 +41,6 @@ class Department
     private $keyword;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="parent")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
-    private $parent;
-
-    /**
      * @ORM\OneToMany(targetEntity=Size::class, mappedBy="Department")
      */
     private $sizes;
@@ -56,11 +50,22 @@ class Department
      */
     private $products;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="departments")
+     * @ORM\JoinColumn(onDelete="CASCADE")
+     */
+    private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Department::class, mappedBy="parent")
+     */
+    private $departments;
+
     public function __construct()
     {
-        $this->parent = new ArrayCollection();
         $this->sizes = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->departments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,40 +121,6 @@ class Department
         return $this;
     }
 
-    public function getParent(): ?self
-    {
-        return $this->parent;
-    }
-
-    public function setParent(?self $parent): self
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    public function addParent(self $parent): self
-    {
-        if (!$this->parent->contains($parent)) {
-            $this->parent[] = $parent;
-            $parent->setParent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeParent(self $parent): self
-    {
-        if ($this->parent->contains($parent)) {
-            $this->parent->removeElement($parent);
-            // set the owning side to null (unless already changed)
-            if ($parent->getParent() === $this) {
-                $parent->setParent(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Size[]
@@ -207,6 +178,49 @@ class Department
             // set the owning side to null (unless already changed)
             if ($product->getDepartment() === $this) {
                 $product->setDepartment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getDepartments(): Collection
+    {
+        return $this->departments;
+    }
+
+    public function addDepartment(self $department): self
+    {
+        if (!$this->departments->contains($department)) {
+            $this->departments[] = $department;
+            $department->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepartment(self $department): self
+    {
+        if ($this->departments->contains($department)) {
+            $this->departments->removeElement($department);
+            // set the owning side to null (unless already changed)
+            if ($department->getParent() === $this) {
+                $department->setParent(null);
             }
         }
 

@@ -37,6 +37,16 @@ class UserFormType extends AbstractType
                     'required' => false,
                     'constraints' => [new NotBlank(),new Length(['min'=>3,'max' => 180])]
                 ])
+            ->add('phone',TextType::class,
+                [
+                    'label' => 'رقم الهاتف',
+                    'attr'=> [
+                        'class' => 'form-control',
+                        'placeholder' => 'يجب ان يكون رقم حقيقي حتي نتواصل معك عند الطلب'
+                    ],
+                    'required' => false,
+                    'constraints' => [new NotBlank(),new Length(['min'=>3,'max' => 13])]
+                ])
             ->add('password',PasswordType::class,
                 [
                     'label' => 'كلمة المرور',

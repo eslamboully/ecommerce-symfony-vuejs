@@ -130,12 +130,25 @@ class Product
      */
     private $size_string;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Love::class, mappedBy="Product")
+     */
+    private $love;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Cart::class, mappedBy="Product")
+     */
+    private $carts;
+
+
     public function __construct()
     {
         $this->Color = new ArrayCollection();
         $this->Country = new ArrayCollection();
         $this->Size = new ArrayCollection();
         $this->ManuFact = new ArrayCollection();
+        $this->love = new ArrayCollection();
+        $this->carts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -463,6 +476,65 @@ class Product
     public function setSizeString(?string $size_string): self
     {
         $this->size_string = $size_string;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Love[]
+     */
+    public function getLove(): Collection
+    {
+        return $this->love;
+    }
+
+    public function addLove(Love $love): self
+    {
+        if (!$this->love->contains($love)) {
+            $this->love[] = $love;
+            $love->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLove(Love $love): self
+    {
+        if ($this->love->contains($love)) {
+            $this->love->removeElement($love);
+            // set the owning side to null (unless already changed)
+            if ($love->getProduct() === $this) {
+                $love->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cart[]
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    public function addCart(Cart $cart): self
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts[] = $cart;
+            $cart->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): self
+    {
+        if ($this->carts->contains($cart)) {
+            $this->carts->removeElement($cart);
+            $cart->removeProduct($this);
+        }
 
         return $this;
     }

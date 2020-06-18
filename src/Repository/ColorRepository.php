@@ -22,19 +22,16 @@ class ColorRepository extends ServiceEntityRepository
     // /**
     //  * @return Color[] Returns an array of Color objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function getColors()
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('c.id', 'DESC')
             ->getQuery()
-            ->getResult()
+            ->getArrayResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Color

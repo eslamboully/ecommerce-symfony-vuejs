@@ -48,27 +48,31 @@ class HomeController extends AbstractController
                 $element->setValue($requestSetting);
                 $entityManager->getManager()->persist($element);
             }
-            foreach ($requestFileSettings as $index=>$requestFileSetting)
-            {
-                $element = $entityManager->getRepository(Setting::class)
-                    ->findOneBy(['var' => $index]);
 
-                $icon = $requestFileSetting;
-                $originalFilename = pathinfo($icon->getClientOriginalName(), PATHINFO_FILENAME);
+                foreach ($requestFileSettings as $index=>$requestFileSetting)
+                {
+                    if ($requestFileSetting !== null) {
+                        $element = $entityManager->getRepository(Setting::class)
+                            ->findOneBy(['var' => $index]);
 
-                $safeFilename = $this->slugger->slug($originalFilename);
-                $newLogoName = $safeFilename.'-'.uniqid().'.'.$icon->guessExtension();
-                try {
-                    $icon->move(
-                        $this->getParameter('uploads_settings'),
-                        $newLogoName
-                    );
-                } catch (FileException $e) {
-                    new \Exception('فيه مشكلة ف نقل الملف تقريبا الصلاحيات بتاعة السيرفر ابقا روح بص عليها');
+                        $icon = $requestFileSetting;
+                        $originalFilename = pathinfo($icon->getClientOriginalName(), PATHINFO_FILENAME);
+
+                        $safeFilename = $this->slugger->slug($originalFilename);
+                        $newLogoName = $safeFilename.'-'.uniqid().'.'.$icon->guessExtension();
+                        try {
+                            $icon->move(
+                                $this->getParameter('uploads_settings'),
+                                $newLogoName
+                            );
+                        } catch (FileException $e) {
+                            new \Exception('فيه مشكلة ف نقل الملف تقريبا الصلاحيات بتاعة السيرفر ابقا روح بص عليها');
+                        }
+                        $element->setValue($newLogoName);
+                        $entityManager->getManager()->persist($element);
+                    }
                 }
-                $element->setValue($newLogoName);
-                $entityManager->getManager()->persist($element);
-            }
+
             $this->addFlash('success','تم تحديث الاعدادات بنجاح');
             $entityManager->getManager()->flush();
 

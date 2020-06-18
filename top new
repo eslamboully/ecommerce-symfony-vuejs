@@ -1,0 +1,6 @@
+* Vue
+	1- nextTick - .bind(vm) => var vm = this;
+	2- loadScript
+	3- difference between watch-mounted-created
+	
+* javascript	

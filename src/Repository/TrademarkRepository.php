@@ -22,19 +22,16 @@ class TrademarkRepository extends ServiceEntityRepository
     // /**
     //  * @return Trademark[] Returns an array of Trademark objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function getTrademarks()
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('t.id', 'DESC')
             ->getQuery()
-            ->getResult()
+            ->getArrayResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Trademark

@@ -65,7 +65,11 @@
                                             <td>{{ product.title }}</td>
                                             <td>
                                             {% if (product.priceOffer != null) %}
-                                                {{ product.priceOffer }}
+                                                {% if  (product.startOfferAt.date <= "now"|date("Y-m-d") and product.endOfferAt.date >= "now"|date("Y-m-d")) %}
+                                                    {{ product.priceOffer }}
+                                                {% else %}
+                                                    {{ product.price }}
+                                                {% endif %}
                                             {% else %}
                                                 {{ product.price }}
                                             {% endif %}
@@ -83,6 +87,7 @@
                                                 {% endif %}
                                             </td>
                                             <td>
+                                                <a href="{{ path('dashboard.products.create',{"copyId":product.id}) }}" class="btn btn-info btn-sm"><i class="fa fa-copy"></i> نسخ </a>
                                                 <a href="{{ path('dashboard.products.edit',{"id":product.id}) }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> تعديل </a>
                                                 <a href="{{ path('dashboard.products.destroy',{"id":product.id}) }}" onclick="return confirm('هل انت متأكد من عملية الحذف ؟')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> حذف </a>
                                             </td>

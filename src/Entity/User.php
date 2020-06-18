@@ -52,10 +52,29 @@ class User implements UserInterface
      */
     private $shippings;
 
+    /**
+     * @ORM\Column(type="string", length=180, nullable=true)
+     */
+    private $phone;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Love::class, mappedBy="User")
+     */
+    private $loves;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="User")
+     */
+    private $orders;
+
+
 
     public function __construct()
     {
         $this->shippings = new ArrayCollection();
+        $this->love = new ArrayCollection();
+        $this->loves = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,6 +204,80 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($shipping->getUser() === $this) {
                 $shipping->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Love[]
+     */
+    public function getLoves(): Collection
+    {
+        return $this->loves;
+    }
+
+    public function addLove(Love $love): self
+    {
+        if (!$this->loves->contains($love)) {
+            $this->loves[] = $love;
+            $love->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLove(Love $love): self
+    {
+        if ($this->loves->contains($love)) {
+            $this->loves->removeElement($love);
+            // set the owning side to null (unless already changed)
+            if ($love->getUser() === $this) {
+                $love->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->contains($order)) {
+            $this->orders->removeElement($order);
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
             }
         }
 

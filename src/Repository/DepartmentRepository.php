@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Department;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,19 +23,31 @@ class DepartmentRepository extends ServiceEntityRepository
     // /**
     //  * @return Department[] Returns an array of Department objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+
+    public function getCategory($id)
     {
         return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('d.id = :id')
+            ->orderBy('d.id', 'DESC')
+            ->setParameter('id',$id)
             ->getQuery()
-            ->getResult()
+            ->getArrayResult();
         ;
     }
-    */
+
+    public function getCategories($parent)
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.parent = :parent')
+            ->orderBy('d.id', 'ASC')
+            ->setParameter('parent',$parent)
+            ->getQuery()
+            ->getArrayResult();
+        ;
+    }
+
+
 
     /*
     public function findOneBySomeField($value): ?Department

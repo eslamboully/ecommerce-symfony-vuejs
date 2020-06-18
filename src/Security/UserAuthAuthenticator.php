@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -25,7 +26,7 @@ class UserAuthAuthenticator extends AbstractFormLoginAuthenticator implements Pa
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'app_login';
+    public const LOGIN_ROUTE = 'front.login';
 
     private $entityManager;
     private $urlGenerator;
@@ -40,6 +41,7 @@ class UserAuthAuthenticator extends AbstractFormLoginAuthenticator implements Pa
         $this->passwordEncoder = $passwordEncoder;
     }
 
+
     public function supports(Request $request)
     {
         return self::LOGIN_ROUTE === $request->attributes->get('_route')
@@ -51,31 +53,14 @@ class UserAuthAuthenticator extends AbstractFormLoginAuthenticator implements Pa
         $credentials = [
             'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),
-            'csrf_token' => $request->request->get('_csrf_token'),
         ];
-        $request->getSession()->set(
-            Security::LAST_USERNAME,
-            $credentials['email']
-        );
 
         return $credentials;
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
-        if (!$this->csrfTokenManager->isTokenValid($token)) {
-            throw new InvalidCsrfTokenException();
-        }
-
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
-
-        if (!$user) {
-            // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
-        }
-
-        return $user;
+        return $userProvider->loadUserByUsername($credentials['email']);
     }
 
     public function checkCredentials($credentials, UserInterface $user)
@@ -91,14 +76,19 @@ class UserAuthAuthenticator extends AbstractFormLoginAuthenticator implements Pa
         return $credentials['password'];
     }
 
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
+        return new JsonResponse([
+            'error' => 'البريد الالكتروني او كلمة المرور غير صحيح'
+        ], 400);
+    }
+
+
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-            return new RedirectResponse($targetPath);
-        }
-
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        return new JsonResponse([
+            'result' => true
+        ]);
     }
 
     protected function getLoginUrl()
@@ -114,8 +104,8 @@ class UserAuthAuthenticator extends AbstractFormLoginAuthenticator implements Pa
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        $url = $this->getLoginUrl();
-
-        return new RedirectResponse($url);
+        return new JsonResponse([
+            'error' => 'Access Denied'
+        ]);
     }
 }
