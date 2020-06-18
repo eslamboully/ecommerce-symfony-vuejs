@@ -48,7 +48,7 @@
                         </div>
                         <div class="quantity">
                             <p>الكمية</p>
-                            <div class="pro-qty"><input type="text" min="1" :max="this.product.stock" value="1"></div>
+                            <div class="pro-qty"><input type="text" id="quantityProduct" min="1" :max="this.product.stock" value="1"></div>
                         </div>
                         <a href="#" v-if="user !== null" class="site-btn" v-on:click.prevent="addToCart(product.id)">اضف الي العربة</a>
                         <a href="#" v-else class="site-btn" data-toggle="modal" data-target="#exampleModal">اضف الي العربة</a>

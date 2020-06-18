@@ -10,6 +10,7 @@ import LoadScript from 'vue-plugin-load-script';
 import HomeComponent from './components/HomeComponent';
 import CategoryComponent from './components/CategoryComponent';
 import ProductComponent from './components/ProductComponent';
+import CartComponent from './components/CartComponent';
 
 const options = {
     color: 'grey',
@@ -34,7 +35,8 @@ window.axios = axios;
 const routes = [
     { path: '/', component: HomeComponent },
     { path: '/category/:id/:name?', component: CategoryComponent },
-    { path: '/product/:id/:name?', component: ProductComponent }
+    { path: '/product/:id/:name?', component: ProductComponent },
+    { path: '/cart', component: CartComponent }
 ]
 
 const router = new VueRouter({

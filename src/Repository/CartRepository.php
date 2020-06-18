@@ -22,19 +22,20 @@ class CartRepository extends ServiceEntityRepository
     // /**
     //  * @return Cart[] Returns an array of Cart objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function getCart($value)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+            ->leftJoin('c.Product','p')
+            ->select('c','p')
+            ->andWhere('c.User = :val')
             ->setParameter('val', $value)
             ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
+            ->getArrayResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Cart

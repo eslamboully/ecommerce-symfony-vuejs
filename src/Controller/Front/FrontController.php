@@ -11,6 +11,7 @@ use App\Entity\User;
 use App\Service\ConfigHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -84,11 +85,10 @@ class FrontController extends AbstractController{
         $cart = $this->getDoctrine()->getRepository(Cart::class)->findOneBy(['User' => $this->getUser()]);
         $cart_count = $cart ? count($cart->getProduct()) : 0;
 
-        return $this->render('front/cart.html.twig',[
+        return $this->render('front/index.html.twig',[
             'categories'=>$categories,
             'config'=>$this->config,
             'cart_count' => $cart_count,
-            'cart' => $cart
         ]);
     }
 
@@ -268,7 +268,7 @@ class FrontController extends AbstractController{
     /**
      * @Route("/api/cart/{id}", name="api.cart")
      */
-    public function api_cart($id)
+    public function api_cart($id,Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $product = $entityManager->getRepository(Product::class)->find($id);
@@ -288,5 +288,21 @@ class FrontController extends AbstractController{
         }
 
         return $this->json(['data' => '', 'error'=>'', 'status'=>true]);
+    }
+    /**
+     * @Route("/api/own/cart", name="api.own.cart")
+     */
+    public function api_own_cart()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $cart = $entityManager->getRepository(Cart::class)->getCart($this->getUser());
+
+        if (!empty($cart)) {
+            $cart = $cart[0];
+        }else{
+            $cart = null;
+        }
+
+        return $this->json(['cart' => $cart]);
     }
 }
