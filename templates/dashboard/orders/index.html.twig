@@ -1,0 +1,105 @@
+{% extends 'dashboard/layouts/base.html.twig' %}
+
+{% block content %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">جدول الطلبات</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="{{ path('dashboard.index') }}">الرئيسية</a></li>
+                        <li class="breadcrumb-item active">الطلبات</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+{#                            <h3 class="card-title">جدول المستخدمين</h3>#}
+                            <a href="" class="btn btn-info btn-md" onclick="window.print()"><i class="fa fa-print"></i> طباعة </a>
+                            <a href="" class="btn btn-primary btn-md"><i class="fa fa-plus"></i> استيراد اكسل </a>
+                            <a href="" class="btn btn-default btn-md"><i class="fa fa-refresh"></i></a>
+                            <a href="" class="btn btn-danger btn-md"><i class="fa fa-trash"></i> حذف الكل </a>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            {% for message in app.flashes('success') %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body label label-success">
+                                                <div style="font-size: 18px;">{{ message }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            {% if orders|length > 0 %}
+                                <table id="table-country" class="table table-bordered">
+                                    <tr>
+                                        <th>رقم الطلب</th>
+                                        <th>السعر الكلي</th>
+                                        <th>صاحب الطلب</th>
+                                        <th>الحالة</th>
+                                        <th>العمليات</th>
+                                    </tr>
+
+                                    {% for order in orders %}
+                                        <tr>
+                                            <td>#{{ order.id }}</td>
+                                            <td>{{ order.totalPrice }} جنية مصري</td>
+                                            <td>
+                                                {{ order.User.name }}
+                                                <br/>
+                                                {{ order.User.email }}
+                                            </td>
+                                            <td>
+                                                {% if order.status == 1 %}
+                                                    {{ 'جاري التجهيز' }}
+                                                {% elseif order.status == 2 %}
+                                                    {{ 'تم تجهيز الطلب' }}
+                                                {% elseif order.status == 3 %}
+                                                    {{ 'تم الاستلام من العميل' }}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('dashboard.orders.edit',{"id":order.id}) }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> التالي </a>
+                                                <a href="{{ path('dashboard.orders.destroy',{"id":order.id}) }}" onclick="return confirm('هل انت متأكد من عملية الحذف ؟')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> حذف </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% else %}
+                                <h1>للأسف لا يوجد مدن او محافظات حتي الان</h1>
+                            {% endif %}
+                        </div>
+                        <!-- /.card-body -->
+{#                        <div class="card-footer clearfix">#}
+{#                            <ul class="pagination pagination-sm m-0 float-right">#}
+{#                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>#}
+{#                                <li class="page-item"><a class="page-link" href="#">1</a></li>#}
+{#                                <li class="page-item"><a class="page-link" href="#">2</a></li>#}
+{#                                <li class="page-item"><a class="page-link" href="#">3</a></li>#}
+{#                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>#}
+{#                            </ul>#}
+{#                        </div>#}
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+{% endblock %}

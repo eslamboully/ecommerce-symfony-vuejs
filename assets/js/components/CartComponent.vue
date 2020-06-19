@@ -82,6 +82,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4 card-right">
+                        <router-link to="/orders" tag="a" class="btn btn-dark btn-xl" style="width: 100%;padding: 10px;border-radius: 23px;margin: 1px">طلباتي السابقة</router-link>
                         <div class="form-group" style="text-align: right">
                             <label for="">تفاصيل الطلب</label>
                             <textarea name="details" rows="8" class="form-control" placeholder="يكتب هنا كمية معينة … مثال : اريد 20 قطعة من المنتج ( حلة جيرانيت ) الموجود في حقيبتي والمنتج ( طقم كاسات ) 3 قطع وباقي المنتجات قطعة واحدة"></textarea>
