@@ -108,7 +108,7 @@
                                 <a href="#" v-else data-toggle="modal" data-target="#exampleModal" class="add-card"><i class="flaticon-bag"></i><span>اضف الي العربة</span></a>
                                 <!-- strange -->
                                 <a href="#" v-if="user !== null" v-on:click.prevent="setLove(latest_product.id)" class="wishlist-btn"><i :class="loveOrNot(latest_product.id)"></i></a>
-                                <a href="#" v-else data-toggle="modal" data-target="#exampleModal" class="wishlist-btn"><i class="flaticon-heart-o"></i></a>
+                                <a href="#" v-else data-toggle="modal" data-target="#exampleModal" class="wishlist-btn"><i class="fa fa-heart-o"></i></a>
                             </div>
                         </div>
                         <div class="pi-text">
@@ -129,7 +129,11 @@
     export default {
         data() {
             return {
-                product: [],
+                product: {
+                    "Department" : '',
+                    "start_offer_at": 0,
+                    "end_offer_at": 0,
+                },
                 latest_products: [],
                 user: null,
                 loves: [],

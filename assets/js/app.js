@@ -11,6 +11,7 @@ import HomeComponent from './components/HomeComponent';
 import CategoryComponent from './components/CategoryComponent';
 import ProductComponent from './components/ProductComponent';
 import CartComponent from './components/CartComponent';
+import OrdersComponent from './components/OrdersComponent';
 
 const options = {
     color: 'grey',
@@ -36,7 +37,8 @@ const routes = [
     { path: '/', component: HomeComponent },
     { path: '/category/:id/:name?', component: CategoryComponent },
     { path: '/product/:id/:name?', component: ProductComponent },
-    { path: '/cart', component: CartComponent }
+    { path: '/cart', component: CartComponent },
+    { path: '/orders', component: OrdersComponent },
 ]
 
 const router = new VueRouter({

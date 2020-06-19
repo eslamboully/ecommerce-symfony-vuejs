@@ -5,6 +5,7 @@ use App\Entity\Cart;
 use App\Entity\Color;
 use App\Entity\Department;
 use App\Entity\Love;
+use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\Trademark;
 use App\Entity\User;
@@ -80,6 +81,22 @@ class FrontController extends AbstractController{
      * @Route("/cart", name="front.cart")
      */
     public function cart()
+    {
+        $categories = $this->getDoctrine()->getRepository(Department::class)->findBy(['parent'=>null]);
+        $cart = $this->getDoctrine()->getRepository(Cart::class)->findOneBy(['User' => $this->getUser()]);
+        $cart_count = $cart ? count($cart->getProduct()) : 0;
+
+        return $this->render('front/index.html.twig',[
+            'categories'=>$categories,
+            'config'=>$this->config,
+            'cart_count' => $cart_count,
+        ]);
+    }
+
+    /**
+     * @Route("/orders", name="front.orders")
+     */
+    public function orders()
     {
         $categories = $this->getDoctrine()->getRepository(Department::class)->findBy(['parent'=>null]);
         $cart = $this->getDoctrine()->getRepository(Cart::class)->findOneBy(['User' => $this->getUser()]);
@@ -304,5 +321,70 @@ class FrontController extends AbstractController{
         }
 
         return $this->json(['cart' => $cart]);
+    }
+
+    /**
+     * @Route("/api/create/order/{id}", name="api.create.order", methods={"POST"})
+     */
+    public function api_create_order(Request $request,$id)
+    {
+        $data = $request->getContent();
+        $data = json_decode($data);
+        $order = new Order();
+        $order->setUser($this->getUser());
+        $order->setDetails($data->details);
+        $order->setStatus(1);
+        $total_price = 0;
+        $entityManager = $this->getDoctrine()->getManager();
+        foreach ($data->products as $product) {
+        $product = $this->getDoctrine()->getRepository(Product::class)->find($product->id);
+            $order->addProduct($product);
+            if ($product->getPriceOffer() !== null) {
+                if ($product->getStartAt()->format("Y-m-d") <= date("Y-m-d") && $product->getEndAt()->format("Y-m-d") >= date("Y-m-d")) {
+                    $total_price += $product->getPriceOffer();
+                }else{
+                    $total_price += $product->getPrice();
+                }
+            }else{
+                $total_price += $product->getPrice();
+            }
+        }
+        $order->setTotalPrice($total_price);
+
+        $entityManager->persist($order);
+
+        $cart = $this->getDoctrine()->getRepository(Cart::class)->find($id);
+
+        $entityManager->persist($cart);
+        $entityManager->remove($cart);
+
+        $entityManager->flush();
+
+        return $this->json(['data' => 'added order success']);
+    }
+
+    /**
+     * @Route("/api/delete/product/{cartId}/{productId}", name="api.delete.product")
+     */
+    public function api_delete_product($cartId,$productId)
+    {
+        $cart = $this->getDoctrine()->getRepository(Cart::class)->find($cartId);
+        $product = $this->getDoctrine()->getRepository(Product::class)->find($productId);
+        $cart->removeProduct($product);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->json(['data' => 'data']);
+    }
+
+    /**
+     * @Route("/api/orders", name="api.get.orders", methods={"POST"})
+     */
+    public function api_get_orders()
+    {
+        $user = $this->getUser();
+        $orders = $this->getDoctrine()->getRepository(Order::class)->getOrders($user);
+
+
+        return $this->json(['data' => $orders]);
     }
 }

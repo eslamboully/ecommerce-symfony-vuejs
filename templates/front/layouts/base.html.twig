@@ -78,11 +78,11 @@
                             {% endif %}
                             <div class="up-item">
                                 {% if app.user %}
-                                    <div class="shopping-card">
-                                        <span>{{ cart_count }}</span>
-                                        <i class="flaticon-bag"></i>
-                                    </div>
-                                    <router-link to="/cart">عربة التسوق</router-link>
+                                        <div class="shopping-card">
+{#                                            <span>{{ cart_count }}</span>#}
+                                            <i class="flaticon-bag"></i>
+                                        </div>
+                                        <router-link to="/cart">عربة التسوق</router-link>
                                 {% else %}
                                     <div class="shopping-card">
                                         <span>0</span>
@@ -110,6 +110,11 @@
                         </ul>
                     </li>
                     {% endfor %}
+                    {% if app.user and app.user.orders|length > 0 %}
+                        <li><router-link tag="a" to="/orders">طلباتي</router-link></li>
+                    {% else %}
+                        <li><a href="#" onclick="alert('لا يوجد لديك طلبات')">طلباتي</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>

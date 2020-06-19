@@ -33,17 +33,17 @@ class Order
     /**
      * @ORM\Column(type="integer")
      */
-    private $quantity;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
     private $total_price;
 
     /**
      * @ORM\Column(type="integer")
      */
     private $status;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $details;
 
     public function __construct()
     {
@@ -92,18 +92,7 @@ class Order
 
         return $this;
     }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
+    
 
     public function getTotalPrice(): ?int
     {
@@ -125,6 +114,18 @@ class Order
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getDetails(): ?string
+    {
+        return $this->details;
+    }
+
+    public function setDetails(?string $details): self
+    {
+        $this->details = $details;
 
         return $this;
     }

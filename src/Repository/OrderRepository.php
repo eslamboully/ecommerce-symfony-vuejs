@@ -22,19 +22,20 @@ class OrderRepository extends ServiceEntityRepository
     // /**
     //  * @return Order[] Returns an array of Order objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function getOrders($user)
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
+            ->leftJoin('o.Product','p')
+            ->select('o','p')
+            ->andWhere('o.User = :user')
+            ->setParameter('user', $user)
+            ->orderBy('o.id', 'DESC')
             ->getQuery()
-            ->getResult()
+            ->getArrayResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Order
