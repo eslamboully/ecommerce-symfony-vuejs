@@ -1,0 +1,61 @@
+/* start nav-bar */
+
+.header-search-form button {
+    left: 18px;
+    right: auto;
+}
+
+.user-panel .up-item:first-child {
+    margin-left: 29px;
+    margin-right: auto;
+}
+
+/* end nav-bar */
+
+/* start main menu */
+
+.main-menu {
+    text-align: right;
+}
+
+.main-menu li a{
+    margin-right: 0;
+    margin-left: 50px;
+}
+
+/* end main menu */
+
+/* start hero slider */
+.hero-section {
+    direction: ltr;
+}
+
+.hero-slider .owl-carousel {
+    direction: ltr;
+}
+.hero-slider .hs-item .offer-card {
+    left: 0;
+    right: auto;
+}
+
+/* end hero slider */
+
+
+/* start latest product slider */
+
+.top-letest-product-section {
+    direction: ltr;
+}
+/* end latest product slider */
+
+.active{
+    color: #F11065;
+}
+
+.page-top-info{
+    text-align: right;
+}
+
+#min_amount {
+
+}

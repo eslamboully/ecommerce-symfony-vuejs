@@ -33,9 +33,13 @@ Vue.use(VueProgressBar, options);
 
 window.Fire  = Vue;
 window.axios = axios;
+var base_url = window.location.protocol + "//" + window.location.host;
+console.log(base_url);
 const routes = [
-    { path: '/', component: HomeComponent },
-    { path: '/category/:id/:name?', component: CategoryComponent },
+    { path: base_url +'/', component: HomeComponent, name: 'front.index' },
+    { path: base_url +'/category/:id/:name?', component: CategoryComponent, name: 'front.category',
+
+    },
     { path: '/product/:id/:name?', component: ProductComponent },
     { path: '/cart', component: CartComponent },
     { path: '/orders', component: OrdersComponent },
